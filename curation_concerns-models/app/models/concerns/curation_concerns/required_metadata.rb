@@ -7,7 +7,7 @@ module CurationConcerns
         index.as :symbol, :stored_searchable
       end
 
-      property :title, predicate: ::RDF::Vocab::DC.title do |index|
+      property :title, predicate: ::RDF::URI("http://purl.org/dc/terms/title"), multiple: false do |index|
         index.as :stored_searchable, :facetable
       end
 

@@ -21,9 +21,17 @@ module CurationConcerns
       property :contributor, predicate: ::RDF::Vocab::DC11.contributor do |index|
         index.as :stored_searchable, :facetable
       end
-      property :description, predicate: ::RDF::Vocab::DC11.description do |index|
-        index.type :text
-        index.as :stored_searchable
+      property :contributor_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/contributor"), multiple: false do |index| 
+         index.as :stored_searchable
+      end
+      property :creator_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/creator"), multiple: false do |index| 
+          index.as :stored_searchable
+      end
+      property :note, predicate: ::RDF::URI("http://purl.org/dc/terms/description"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      property :abstract, predicate: ::RDF::URI("http://purl.org/dc/terms/abstract"), multiple: false do |index| 
+         index.as :stored_searchable
       end
       property :tag, predicate: ::RDF::Vocab::DC11.relation do |index|
         index.as :stored_searchable, :facetable
@@ -34,12 +42,21 @@ module CurationConcerns
       property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
         index.as :stored_searchable, :facetable
       end
-      property :date_created, predicate: ::RDF::Vocab::DC.created do |index|
+      property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher"), multiple: false do |index|
+        index.as :stored_searchable
+     end
+     property :date_created, predicate: ::RDF::Vocab::DC.created do |index|
         index.as :stored_searchable
       end
-
+ ## Decide which field will hold range slider dates
+ #     property :date, predicate: ::RDF::URI("http://purl.org/dc/terms/created"), multiple: false do |index|
+ #       index.as :stored_searchable
+ #     end
       property :subject, predicate: ::RDF::Vocab::DC11.subject do |index|
         index.as :stored_searchable, :facetable
+      end
+      property :language_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/language"), multiple: false do |index|
+         index.as :stored_searchable
       end
       property :language, predicate: ::RDF::Vocab::DC11.language do |index|
         index.as :stored_searchable, :facetable
