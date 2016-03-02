@@ -3,8 +3,7 @@ CurationConcerns.configure do |config|
   config.register_curation_concern :page
   # Injected via `rails g curation_concerns:work Book`
   config.register_curation_concern :book
-  # Injected via `rails g curation_concerns:work IntellectualWork`
-  config.register_curation_concern :intellectual_work
+
   config.fits_to_desc_mapping = {
     file_title: :title,
     file_author: :creator
