@@ -30,10 +30,13 @@ class Book < ActiveFedora::Base
   property :identifier, predicate: ::RDF::URI("http://purl.org/dc/terms/identifier"), multiple: false do |index|
        index.as :stored_searchable
   end
-  property :book_ocr, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/relation"), multiple: false do |index|
-       index.as :searchable
+  property :repository, predicate: ::RDF::URI("http://www.europeana.eu/schemas/edm/currentLocation"), multiple: false do |index|
+       index.as :stored_searchable
   end
-  property :pubplace, predicate: ::RDF::URI("http://vivoweb.org/ontology/core#placeOfPublication"), multiple: false do |index|
+  property :item_type, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/type"), multiple: false do |index|
+       index.as :stored_searchable
+  end
+  property :item_type_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/type"), multiple: false do |index|
        index.as :stored_searchable
   end
     

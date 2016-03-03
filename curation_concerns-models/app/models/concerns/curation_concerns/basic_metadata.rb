@@ -59,23 +59,45 @@ module CurationConcerns
          index.as :stored_searchable
       end
       property :language, predicate: ::RDF::Vocab::DC11.language do |index|
-        index.as :stored_searchable, :facetable
+         index.as :stored_searchable, :facetable
       end
       property :identifier, predicate: ::RDF::Vocab::DC.identifier do |index|
         index.as :stored_searchable
       end
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near do |index|
-        index.as :stored_searchable, :facetable
+         index.as :stored_searchable, :facetable
       end
       property :related_url, predicate: ::RDF::RDFS.seeAlso do |index|
-        index.as :stored_searchable
+         index.as :stored_searchable
       end
       property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation do |index|
-        index.as :stored_searchable
+         index.as :stored_searchable
       end
       property :source, predicate: ::RDF::Vocab::DC.source do |index|
-        index.as :stored_searchable
+         index.as :stored_searchable
       end
+      property :ocr, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/relation"), multiple: false do |index|
+         index.as :searchable
+      end
+      property :pubplace, predicate: ::RDF::URI("http://vivoweb.org/ontology/core#placeOfPublication"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      property :rights, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/rights"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      property :rights_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/rights"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      property :rightsHolder, predicate: ::RDF::URI("http://purl.org/dc/terms/rightsHolder"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      property :subject, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/subject"), multiple: true do |index|
+         index.as :stored_searchable
+      end
+      property :subject_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/subject"), multiple: false do |index|
+         index.as :stored_searchable
+      end
+      
     end
   end
 end
