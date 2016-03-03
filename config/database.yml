@@ -4,14 +4,21 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
-default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
-
+#default: &default
+#  adapter: sqlite3
+#  pool: 5
+#  timeout: 5000
+default : &default
+  adapter: mysql
+  host: localhost
+  database: curationconcerns
+  username: ccuser
+  password: ccuserspass
+  socket: /var/lib/mysql/mysql.sock
+  pool: 200
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: curationconcerns
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

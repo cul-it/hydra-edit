@@ -61,7 +61,7 @@ module CurationConcerns
       property :language, predicate: ::RDF::Vocab::DC11.language do |index|
          index.as :stored_searchable, :facetable
       end
-      property :identifier, predicate: ::RDF::Vocab::DC.identifier do |index|
+      property :identifier, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/identifier"), multiple: true do |index|
         index.as :stored_searchable
       end
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near do |index|
