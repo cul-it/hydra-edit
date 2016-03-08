@@ -1,0 +1,38 @@
+
+Create Collection
+
+
+<%= form_for @collection, url: {action: "create_collection"}, html: {class: "nifty_form"} do |f| %>
+  <div>
+  Collection_title		<%= f.text_field :collection_title %>
+  </div>
+  <div>
+  Collection_abstract	<%= f.text_area :collection_abstract, size: "60x12" %>
+  </div>
+  <div>
+  Collection_date		<%= f.text_field :collection_date %>
+  </div>
+  <div>
+  Collection_bibid		<%= f.text_field :collection_bibid %>
+  </div>
+  <div>
+  Collection_note		<%= f.text_field :collection_note %>
+  </div>
+  <div>
+  Collection_publ		<%= f.text_field :collection_publ %>
+  </div>
+  <div>
+  Collection_publ_URI	<%= f.text_field :collection_publ_URI %>
+  </div>
+  <div>
+  Collection_relatedURL	<%= f.text_field :collection_relatedURL %>
+  </div>
+  <div>
+  Repository_location	<%= f.text_field :repository_location %>
+  </div>
+  <div>
+  <%= f.submit "Create" %>
+  </div>
+<% end %>
+
+
