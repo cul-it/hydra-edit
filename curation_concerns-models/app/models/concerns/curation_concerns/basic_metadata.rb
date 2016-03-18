@@ -61,7 +61,7 @@ module CurationConcerns
       property :language, predicate: ::RDF::Vocab::DC11.language do |index|
          index.as :stored_searchable, :facetable
       end
-      property :identifier, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/identifier"), multiple: true do |index|
+      property :our_identifier, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/identifier"), multiple: true do |index|
         index.as :stored_searchable
       end
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near do |index|
@@ -76,9 +76,9 @@ module CurationConcerns
       property :source, predicate: ::RDF::Vocab::DC.source do |index|
          index.as :stored_searchable
       end
-      property :ocr, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/relation"), multiple: false do |index|
-         index.as :searchable
-      end
+#      property :ocr, predicate: ::RDF::URI("http://purl.org/dc/elements/1.1/relation"), multiple: false do |index|
+#         index.as :searchable
+#      end
       property :pubplace, predicate: ::RDF::URI("http://vivoweb.org/ontology/core#placeOfPublication"), multiple: false do |index|
          index.as :stored_searchable
       end
