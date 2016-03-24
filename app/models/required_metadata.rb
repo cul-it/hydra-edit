@@ -3,11 +3,11 @@
     extend ActiveSupport::Concern
 
     included do
-      property :depositor, predicate: ::RDF::URI.new('http://id.loc.gov/vocabulary/relators/dpt'), multiple: false do |index|
+      property :depositor, predicate: ::RDF::URI.new('http://id.loc.gov/vocabulary/relators/dpt') do |index|
         index.as :symbol, :stored_searchable
       end
 
-      property :title, predicate: ::RDF::URI("http://purl.org/dc/terms/title"), multiple: false do |index|
+      property :title, predicate: ::RDF::URI("http://purl.org/dc/terms/title") do |index|
         index.as :stored_searchable, :facetable
       end
 
@@ -16,20 +16,20 @@
       # fedora's system created date will reflect the date when the record
       # was created in fedora4, but the date_uploaded will preserve the
       # original creation date from the old repository.
-      property :date_uploaded, predicate: ::RDF::Vocab::DC.dateSubmitted, multiple: false do |index|
+      property :date_uploaded, predicate: ::RDF::Vocab::DC.dateSubmitted do |index|
         index.type :date
         index.as :stored_sortable
       end
 
-      property :date_modified, predicate: ::RDF::Vocab::DC.modified, multiple: false do |index|
+      property :date_modified, predicate: ::RDF::Vocab::DC.modified do |index|
         index.type :date
         index.as :stored_sortable
       end
     
-      property :publisher, predicate: ::RDF::Vocab::DC11.publisher, multiple: false do |index|
+      property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
         index.as :stored_searchable, :facetable
       end
-      property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher"), multiple: false do |index|
+      property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher") do |index|
         index.as :stored_searchable
      end
 
