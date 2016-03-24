@@ -5,7 +5,7 @@ class Page < ActiveFedora::Base
   include ::BasicMetadata
   validates :title, presence: { message: 'Your work must have a title.' }
   
-  property :our_identifier, predicate: ::RDF::URI("http://purl.org/dc/terms/identifier"), multiple: false do |index|
+  property :our_identifier, predicate: ::RDF::URI("http://purl.org/dc/terms/identifier") do |index|
        index.as :stored_searchable
   end
   

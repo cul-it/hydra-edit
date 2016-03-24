@@ -39,7 +39,7 @@
       property :rights, predicate: ::RDF::Vocab::DC.rights do |index|
         index.as :stored_searchable
       end
-      property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
+      property :publisher, predicate: ::RDF::Vocab::DC11.publisher, multiple: true do |index|
         index.as :stored_searchable, :facetable
       end
       property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher"), multiple: false do |index|
@@ -67,7 +67,7 @@
       property :based_near, predicate: ::RDF::Vocab::FOAF.based_near do |index|
          index.as :stored_searchable, :facetable
       end
-      property :related_url, predicate: ::RDF::RDFS.seeAlso do |index|
+      property :related_url, predicate: ::RDF::RDFS.seeAlso, multiple: false do |index|
          index.as :stored_searchable
       end
       property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation do |index|

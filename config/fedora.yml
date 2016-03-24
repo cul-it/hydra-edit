@@ -2,8 +2,8 @@ development:
   user: fedoraAdmin
   password: fedoraAdmin
  # url: http://132.236.27.77:8080/fcrepo-webapp-4.4.0/rest
-  url: http://hydraedit-dev.library.cornell.edu/fedora/rest
-  base_path: /dev
+  url: http://hydraedit-dev.library.cornell.edu:8080/fedora/rest
+  base_path: /devsolr410
 test:
   user: fedoraAdmin
   password: fedoraAdmin

@@ -4,13 +4,13 @@ class Collection < ActiveFedora::Base
   include ::RequiredMetadata
   #This is a PCDM Collection Object
   
-  property :abstract, predicate: ::RDF::URI("http://purl.org/dc/terms/abstract"), multiple: false do |index|
+  property :abstract, predicate: ::RDF::URI("http://purl.org/dc/terms/abstract") do |index|
     index.as :stored_searchable
   end
-  property :bib_id, predicate: ::RDF::Vocab::DC11.identifier, multiple: false do |index|
+  property :bib_id, predicate: ::RDF::Vocab::DC11.identifier do |index|
     index.as :stored_searchable
   end
-  property :relatedURL, predicate: ::RDF::Vocab::DC11.relation, multiple: false do |index|
+  property :related_url, predicate: ::RDF::Vocab::DC11.relation do |index|
     index.as :stored_searchable
   end
 
