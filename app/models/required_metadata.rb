@@ -26,12 +26,12 @@
         index.as :stored_sortable
       end
     
-      property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
-        index.as :stored_searchable, :facetable
-      end
-      property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher") do |index|
-        index.as :stored_searchable
-     end
+#      property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
+#        index.as :stored_searchable, :facetable
+#      end
+#      property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher") do |index|
+#        index.as :stored_searchable
+#     end
 
     end
   end
