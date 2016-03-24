@@ -11,7 +11,7 @@
         index.as :symbol
       end
 
-      property :part_of, predicate: ::RDF::Vocab::DC.isPartOf
+ #     property :part_of, predicate: ::RDF::Vocab::DC.isPartOf
       property :resource_type, predicate: ::RDF::Vocab::DC.type do |index|
         index.as :stored_searchable, :facetable
       end
@@ -56,9 +56,10 @@
  #     property :date, predicate: ::RDF::URI("http://purl.org/dc/terms/created") do |index|
  #       index.as :stored_searchable
  #     end
-      property :subject, predicate: ::RDF::Vocab::DC11.subject do |index|
-        index.as :stored_searchable, :facetable
-      end
+      #repeated below
+      #property :subject, predicate: ::RDF::Vocab::DC11.subject do |index|
+      #  index.as :stored_searchable, :facetable
+      # end
       property :language_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/language") do |index|
          index.as :stored_searchable
       end
