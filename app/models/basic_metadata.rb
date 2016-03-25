@@ -49,7 +49,7 @@
       property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/publisher") do |index|
         index.as :stored_searchable
      end
-     property :date_created, predicate: ::RDF::Vocab::DC.created do |index|
+     property :date_created, predicate: ::RDF::Vocab::DC.created, multiple: false do |index|
         index.as :stored_searchable
       end
  ## Decide which field will hold range slider dates

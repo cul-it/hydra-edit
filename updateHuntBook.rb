@@ -126,16 +126,18 @@ class Parser
     repository_name = "Cornell University.Library.Division of Rare and Manuscript Collections"
       puts  creator 
        alt_title = title
-       book1 = Book.new(id: ARGV[0],title: [title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], translator: [translator], extent: [extent], format: [format], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace])
-   puts book1.to_s
+       book1 = Book.find(ARGV[0])
+       book1.creator = [creator]
+    #   book1 = Book.new(id: ARGV[0],title: [title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], translator: [translator], extent: [extent], format: [format], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace])
+ #  puts book1.to_s
        book1.apply_depositor_metadata("jac244@cornell.edu")
-       col = Collection.find("huntington")
-       col.apply_depositor_metadata("jac244@cornell.edu")
+  #     col = Collection.find("huntington")
+  #     col.apply_depositor_metadata("jac244@cornell.edu")
        book1.save
        book1.to_solr
-       col.members << book1
-       col.save
-       col.to_solr
+  #     col.members << book1
+  #     col.save
+  #     col.to_solr
       puts "done" 
   end
 end
