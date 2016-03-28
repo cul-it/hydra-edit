@@ -128,7 +128,28 @@ class Parser
        alt_title = title
        book1 = Book.find(ARGV[0])
        book1.creator = [creator]
-    #   book1 = Book.new(id: ARGV[0],title: [title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], translator: [translator], extent: [extent], format: [format], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace])
+       book1.title =  [title]
+       book1.alternative_title = [alt_title]
+       book1.compiler = [compiler]
+       book1.editor = [editor]
+       book1.translator = [translator]
+       book1.extent = [extent]
+       book1.format = [format]
+       book1.format_URI = [format_URI]
+       book1.our_identifier = [our_identifier]
+       book1.repository_location = [repository_location]
+       book1.item_type = [item_type]
+       book1.item_type_URI = [item_type_URI]
+       book1.date_uploaded = date_uploaded
+       book1.date_modified = date_modified
+       book1.depositor = depositor
+       book1.note = [note]
+       book1.publisher = [publisher] 
+       book1.date_created = date_created
+       book1.subject = subject
+       book1.language = [language] 
+       book1.related_url = [related_url]
+       book1.pubplace = [pubplace]
  #  puts book1.to_s
        book1.apply_depositor_metadata("jac244@cornell.edu")
   #     col = Collection.find("huntington")
