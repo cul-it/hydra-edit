@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'curation_concerns', '0.8.0'
+gem 'curation_concerns', '0.10.0'
 gem "hydra-role-management"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
