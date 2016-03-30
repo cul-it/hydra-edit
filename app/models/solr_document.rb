@@ -25,4 +25,11 @@ class SolrDocument
   # Do content negotiation for AF models. 
 
   use_extension( Hydra::ContentNegotiation )
+
+  def alternative_title
+    fetch('alternative_title_tesim', [])
+  end
+
+
+
 end
