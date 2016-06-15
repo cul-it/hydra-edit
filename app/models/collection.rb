@@ -13,5 +13,30 @@ class Collection < ActiveFedora::Base
   property :related_url, predicate: ::RDF::Vocab::DC11.relation do |index|
     index.as :stored_searchable
   end
+  property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :publisher_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/agent"), multiple: false do |index|
+    index.as :stored_searchable
+  end
+  property :date_created, predicate: ::RDF::Vocab::DC.created, multiple: false do |index|
+    index.as :stored_searchable
+  end
+  property :subject, predicate: ::RDF::Vocab::DC.subject do |index|
+    index.as :stored_searchable
+  end
+#  property :subject_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/subject"), multiple: false do |index|
+#    index.as :stored_searchable
+#  end
+  property :curator, predicate: ::RDF::URI("http://rdaregistry.info/Elements/u/P60376"), multiple: false do |index|
+    index.as :stored_searchable
+  end
+  property :language, predicate: ::RDF::Vocab::DC.language, multiple: false do |index|
+    index.as :stored_searchable
+  end
+  property :alt_title, predicate: ::RDF::URI("http://purl.org/dc/terms/alternative"), multiple: false do |index|
+    index.as :stored_searchable
+  end
 
 end
+

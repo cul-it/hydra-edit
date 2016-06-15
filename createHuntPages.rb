@@ -212,6 +212,9 @@ class Parser
            page.apply_depositor_metadata("jac244@cornell.edu")
            book = Book.find(ARGV[0])
            book.apply_depositor_metadata("jac244@cornell.edu")
+            page.save
+            page.to_solr
+            page.update_index
            book.members << page
         #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
         #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
@@ -226,10 +229,9 @@ class Parser
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
-            page.save
-            page.to_solr
             book.save
             book.to_solr
+            book.update_index
             puts "Page " + image_seq + " in " + ARGV[0] + " saved "
             puts "PageID = " +  pagepid
           end

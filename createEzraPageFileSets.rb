@@ -180,6 +180,9 @@ class Parser
             image_res = pb1.values[2]
             image_fmt = pb1.values[3]
             image_dim = pb1.values[4]
+            image_dims = image_dim.split("x")
+            image_width = image_dims[0]
+            image_height = image_dims[1]
             image_ftr = pb1.values[5]
             image_n = pb1.values[6]
             puts image_ref
@@ -203,31 +206,34 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
+          ezraNum = ARGV[0]
+          if ezraNum[1] == "3"
+            ezraNum = ezraNum[1..2] + ezraNum[4..5]
+          else
+            ezraNum = ezraNum[-4..-1]
+          end
           if image_seq.to_i >= 1
-          pagepid = ARGV[0] + "_" + image_seq
+          pagepid = "ezra" + ezraNum + "_" + image_seq
           puts "shift"
-          puts subject.to_s
+         # puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
            page = Page.find(pagepid)
-           page.subject = subject
-           page.title = [title] 
-           page.node = [node]
-           page.node_type = [node_type]
-           puts head
-           page.heading =  [head]
-           page.page_number = [image_n]
-           page.ocr = [image_ocr]
-           page.our_identifier = [pagepid] 
-            puts "swing"
+           filesetid = pagepid + "_fs"
+           fs = FileSet.new(filesetid)
+           fs.width = [image_width]
+           fs.height = [image_height]
+           fs.filename = image_ref
+           fs.identifier = [filesetid]
+           fs.fileset_identifier = [filesetid]
+           fs.awsimage = ["http://s3.amazonaws.com/cul-hydra/ezra/" + ARGV[0] + "/jpg/" + image_ref]
+           fs.awsthumbnail = ["http://s3.amazonaws.com/cul-hydra/ezra/" + ARGV[0] + "/thumbs/" + image_ref]
            head = ""
            page.apply_depositor_metadata("jac244@cornell.edu")
-            page.save
-            page.to_solr
-           book = Book.find(ARGV[0])
-           book.apply_depositor_metadata("jac244@cornell.edu")
-           book.members << page
-        #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
-        #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
+           fs.apply_depositor_metadata("jac244@cornell.edu")
+            fs.save
+            fs.to_solr
+            fs.update_index
+            page.members << fs
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -239,10 +245,11 @@ class Parser
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
-            book.save
-            book.to_solr
-            puts "Page " + image_seq + " in " + ARGV[0] + " saved "
-            puts "PageID = " +  pagepid
+            page.save
+            page.to_solr
+            page.update_index
+            puts "FileSet " + image_seq + " in ezra" + ARGV[0] + " saved "
+            puts "FileSetID = " +  filesetid
           end
        end
       epbcount = 0
@@ -261,6 +268,6 @@ if inputparam.nil?
   puts "You must pass in a record ID"
   exit
 end
-data = Parser.new("/collections/hunt/" + inputparam + "/" + inputparam + "_john_Jul22_dims.xml")
+data = Parser.new("/collections/ezra/" + ARGV[0] + "/" + ARGV[0] + "_johnDec2_dims.xml")
 data.parseRecords("DIV1")
 

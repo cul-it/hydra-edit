@@ -51,7 +51,6 @@ class Parser
     editorialdecl = ""
     subject = []
     head = ""
-
     title = @doc.xpath(sprintf('//%s', 'TITLE'))[0].content
     author = @doc.xpath(sprintf('//%s', 'AUTHOR'))[0].content
     publisher = @doc.xpath(sprintf('//%s', 'BIBL//PUBLISHER'))[0].content
@@ -154,7 +153,7 @@ class Parser
             image_keyword = " "
             image_caption = " "
             image_ocr = " "
-
+            head = ""
 
        node = record.values[0] #.split(':')[1]
        node_type = record.values[1]
@@ -203,28 +202,19 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-          if image_seq.to_i >= 1
+          if image_seq.to_i >= 258
           pagepid = ARGV[0] + "_" + image_seq
           puts "shift"
           puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-           page = Page.find(pagepid)
-           page.subject = subject
-           page.title = [title] 
-           page.node = [node]
-           page.node_type = [node_type]
-           puts head
-           page.heading =  [head]
-           page.page_number = [image_n]
-           page.ocr = [image_ocr]
-           page.our_identifier = [pagepid] 
+           page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
             puts "swing"
-           head = ""
            page.apply_depositor_metadata("jac244@cornell.edu")
-            page.save
-            page.to_solr
            book = Book.find(ARGV[0])
            book.apply_depositor_metadata("jac244@cornell.edu")
+            page.save
+            page.to_solr
+            page.update_index
            book.members << page
         #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
         #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
@@ -241,6 +231,7 @@ class Parser
 #            puts image_seq
             book.save
             book.to_solr
+            book.update_index
             puts "Page " + image_seq + " in " + ARGV[0] + " saved "
             puts "PageID = " +  pagepid
           end

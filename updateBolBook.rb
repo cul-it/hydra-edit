@@ -120,24 +120,45 @@ class Parser
        end
     end
 
-    our_identifier = ARGV[0]
+    our_identifier = "boli" + ARGV[0]
     image_counter = 0
     record_counter = 0
     repository_name = "Cornell University.Library.Division of Rare and Manuscript Collections"
       puts  creator 
        alt_title = title
-       book1 = Book.new(id: ARGV[0],title: [title], alternative_title: [alt_title], compiler: [compiler], creator: [creator], editor: [editor], translator: [translator], extent: [extent], format: ["Book"], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace])
+       book1 = Book.find("boli" +ARGV[0])
+       book1.creator = [creator]
+   #    book1.title =  [title]
+   #    book1.alternative_title = [alt_title]
+   #    book1.compiler = [compiler]
+   #    book1.editor = [editor]
+   #    book1.translator = [translator]
+   #    book1.extent = [extent]
+   #    book1.format = [format]
+   #    book1.format_URI = [format_URI]
+   #    book1.our_identifier = [our_identifier]
+   #    book1.repository_location = [repository_location]
+   #    book1.item_type = [item_type]
+   #    book1.item_type_URI = [item_type_URI]
+   #    book1.date_uploaded = date_uploaded
+   #    book1.date_modified = date_modified
+   #    book1.depositor = depositor
+   #    book1.note = [note]
+   #    book1.publisher = [publisher] 
+   #    book1.date_created = date_created
+   #    book1.subject = subject
+   #    book1.language = [language] 
+   #    book1.related_url = [related_url]
+   #    book1.pubplace = [pubplace]
    puts book1.to_s
-       book1.apply_depositor_metadata("jac244@cornell.edu")
-       col = Collection.find("huntington")
-       col.apply_depositor_metadata("jac244@cornell.edu")
+       #book1.apply_depositor_metadata("jac244@cornell.edu")
+  #     col = Collection.find("huntington")
+  #     col.apply_depositor_metadata("jac244@cornell.edu")
        book1.save
-       book1.to_solr
-       book1.update_index
-       col.members << book1
-       col.save
-       col.to_solr
-       col.update_index
+     #  book1.to_solr
+  #     col.members << book1
+  #     col.save
+  #     col.to_solr
       puts "done" 
   end
 end
@@ -146,6 +167,6 @@ if inputparam.nil?
   puts "You must pass in a record ID"
   exit
 end
-data = Parser.new("/collections/hunt/" + inputparam + "/" + inputparam + "_john_Jul22_dims.xml")
+data = Parser.new("/collections/bolivian/" + inputparam + "/bol" + ARGV[0] + "_johnAug18_dims.xml")
 data.parseRecords("HEADER")
 

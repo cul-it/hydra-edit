@@ -6,7 +6,7 @@ class Book < ActiveFedora::Base
   include ::RequiredMetadata
   validates :title, presence: { message: 'Your work must have a title.' }
   
-  property :alternative_title, predicate: ::RDF::URI("http://purl.org/dc/term/alternative") do |index| 
+  property :alternative_title, predicate: ::RDF::URI("http://purl.org/dc/terms/alternative") do |index| 
        index.as :stored_searchable
    end
 ## collection property should automagically be a part of this object
@@ -40,6 +40,15 @@ class Book < ActiveFedora::Base
   property :item_type_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/type") do |index|
        index.as :stored_searchable
   end
-#    
+  property :edition, predicate: ::RDF::URI("http://purl.org/bibo/edition") do |index|
+       index.as :stored_searchable
+  end
+  property :physicalVersion, predicate: ::RDF::URI("http://purl.org/dc/elements/source") do |index|
+       index.as :stored_searchable
+  end
+  property :bibID, predicate: ::RDF::URI("http://purl.org/dc/elements/identifier") do |index|
+       index.as :stored_searchable
+  end
+    
   
 end

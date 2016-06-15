@@ -180,6 +180,9 @@ class Parser
             image_res = pb1.values[2]
             image_fmt = pb1.values[3]
             image_dim = pb1.values[4]
+            image_dims = image_dim.split("x")
+            image_width = image_dims[0]
+            image_height = image_dims[1]
             image_ftr = pb1.values[5]
             image_n = pb1.values[6]
             puts image_ref
@@ -209,23 +212,21 @@ class Parser
           puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
            page = Page.find(pagepid)
-           page.subject = subject
-           page.title = [title] 
-           page.node = [node]
-           page.node_type = [node_type]
-           puts head
-           page.heading =  [head]
-           page.page_number = [image_n]
-           page.ocr = [image_ocr]
-           page.our_identifier = [pagepid] 
-            puts "swing"
+           filesetid = pagepid + "_fs"
+           fs = FileSet.new(filesetid)
+           fs.width = [image_width]
+           fs.height = [image_height]
+           fs.filename = image_ref
+           fs.identifier = [filesetid]
+           fs.fileset_identifier = [filesetid]
+           fs.awsimage = ["http://s3.amazonaws.com/cul-hydra/hunt/" + ARGV[0] + "/jpg/" + image_ref]
+           fs.awsthumbnail = ["http://s3.amazonaws.com/cul-hydra/hunt/" + ARGV[0] + "/thumbs/" + image_ref]
            head = ""
            page.apply_depositor_metadata("jac244@cornell.edu")
-            page.save
-            page.to_solr
-           book = Book.find(ARGV[0])
-           book.apply_depositor_metadata("jac244@cornell.edu")
-           book.members << page
+           fs.apply_depositor_metadata("jac244@cornell.edu")
+            fs.save
+            fs.to_solr
+            page.members << fs
         #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
         #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
             image_format = ""
@@ -239,10 +240,10 @@ class Parser
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
-            book.save
-            book.to_solr
-            puts "Page " + image_seq + " in " + ARGV[0] + " saved "
-            puts "PageID = " +  pagepid
+            page.save
+            page.to_solr
+            puts "FileSet " + image_seq + " in " + ARGV[0] + " saved "
+            puts "FileSetID = " +  filesetid
           end
        end
       epbcount = 0

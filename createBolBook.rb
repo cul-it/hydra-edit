@@ -48,7 +48,7 @@ class Parser
     title = ""
     item_type = ""
     item_type_URI = ""
-    depositor = ""
+    depositor = "jac244@cornell.edu"
     depository = ""
     date_uploaded = ""
     date_modified = ""
@@ -120,25 +120,32 @@ class Parser
        end
     end
 
-    our_identifier = ARGV[0]
+    our_identifier = "boli" + ARGV[0]
     image_counter = 0
     record_counter = 0
     repository_name = "Cornell University.Library.Division of Rare and Manuscript Collections"
       puts  creator 
        alt_title = title
-       book1 = Book.new(id: ARGV[0],title: [title], alternative_title: [alt_title], compiler: [compiler], creator: [creator], editor: [editor], translator: [translator], extent: [extent], format: ["Book"], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace])
-   puts book1.to_s
+       book1 = Book.new(id: our_identifier,title: [title], alternative_title: [alt_title], creator: [creator], compiler: [compiler], editor: [editor], translator: [translator], extent: [extent], format: ["Book"], format_URI: [format_URI], our_identifier: [our_identifier], repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], publisher: [publisher], date_created: date_created, subject: subject, language: [language], related_url: [related_url], pubplace: [pubplace], identifier: [our_identifier])
+ #  puts book1.inspect
        book1.apply_depositor_metadata("jac244@cornell.edu")
-       col = Collection.find("huntington")
+       col = Collection.find("bolivian")
+    #   puts col.inspect
        col.apply_depositor_metadata("jac244@cornell.edu")
+     #  puts "here 0"
        book1.save
+    #   puts "here 1"
        book1.to_solr
        book1.update_index
+    #   puts "here 2"
        col.members << book1
+    #   puts "here 3"
        col.save
+    #   puts "here 4"
        col.to_solr
        col.update_index
-      puts "done" 
+    #   puts "here 5"
+      puts "Finished boli" + ARGV[0] 
   end
 end
 inputparam = ARGV[0]
@@ -146,6 +153,6 @@ if inputparam.nil?
   puts "You must pass in a record ID"
   exit
 end
-data = Parser.new("/collections/hunt/" + inputparam + "/" + inputparam + "_john_Jul22_dims.xml")
+data = Parser.new("/collections/bolivian/" + inputparam + "/bol" + inputparam + "_johnAug18_dims.xml")
 data.parseRecords("HEADER")
 

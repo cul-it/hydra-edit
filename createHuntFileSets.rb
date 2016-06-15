@@ -51,7 +51,6 @@ class Parser
     editorialdecl = ""
     subject = []
     head = ""
-
     title = @doc.xpath(sprintf('//%s', 'TITLE'))[0].content
     author = @doc.xpath(sprintf('//%s', 'AUTHOR'))[0].content
     publisher = @doc.xpath(sprintf('//%s', 'BIBL//PUBLISHER'))[0].content
@@ -154,7 +153,7 @@ class Parser
             image_keyword = " "
             image_caption = " "
             image_ocr = " "
-
+            head = ""
 
        node = record.values[0] #.split(':')[1]
        node_type = record.values[1]
@@ -190,7 +189,7 @@ class Parser
             image_keyword = ""
             image_caption = ""
             image_ocr = ""
-            title = image_ftr + " " + image_n
+            title = image_ftr + " " + image_n + " fileset"
 
           epbs1[epbs1count].xpath('.//P').each do |pee1|
            #  puts "Ralph" + pee1.content()
@@ -203,29 +202,17 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-          if image_seq.to_i >= 1
-          pagepid = ARGV[0] + "_" + image_seq
+          if image_seq.to_i == 1
+          pagepid = ARGV[0] + "_" + image_seq + "_fs"
           puts "shift"
           puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-           page = Page.find(pagepid)
-           page.subject = subject
-           page.title = [title] 
-           page.node = [node]
-           page.node_type = [node_type]
-           puts head
-           page.heading =  [head]
-           page.page_number = [image_n]
-           page.ocr = [image_ocr]
-           page.our_identifier = [pagepid] 
+           fileset = FileSet.new(id: pagepid, fileset_title: [title])
             puts "swing"
-           head = ""
+           fileset.apply_depositor_metadata("jac244@cornell.edu")
+           page = Page.find(ARGV[0] + "_" + image_seq)
            page.apply_depositor_metadata("jac244@cornell.edu")
-            page.save
-            page.to_solr
-           book = Book.find(ARGV[0])
-           book.apply_depositor_metadata("jac244@cornell.edu")
-           book.members << page
+           page.members << fileset
         #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
         #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
             image_format = ""
@@ -239,8 +226,10 @@ class Parser
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
-            book.save
-            book.to_solr
+            fileset.save
+            fileset.to_solr
+            page.save
+            page.to_solr
             puts "Page " + image_seq + " in " + ARGV[0] + " saved "
             puts "PageID = " +  pagepid
           end
