@@ -1,6 +1,6 @@
 development:
   adapter: solr
-  url: http://hydradev.library.cornell.edu:8983/solr/digitalcollections 
+  url: http://hydraedit-dev.library.cornell.edu:8983/solr/digitalcollections 
 #  url: http://ouexhibits-dev.solr.library.cornell.edu/solr/collection1 
 test: &test
   adapter: solr

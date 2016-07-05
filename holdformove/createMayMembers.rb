@@ -148,32 +148,27 @@ class Parser
 
     image_counter = 0
     record_counter = 0
-       recordNumber = ARGV[0]
-       if recordNumber[1] == "3"
-          recordNumber = recordNumber[1..2] + recordNumber[4..5]
-       else
-          recordNumber = recordNumber[-4..-1]
-       end
-       bookpid = "ezra" + recordNumber
+       recordNumber = ARGV[0][3..-1]
+       bookpid = "mays" + recordNumber
        puts "BookID = " + bookpid
        book = Book.new(id: bookpid, title: [titlestmt_title], alternative_title: [title], 
                           creator: [titlestmt_author], extent: [extent], 
-                          format: ["Book"], our_identifier: [bookpid], publisher: [pubstmt_publisher],
+                          format: ["Pamphlet"], our_identifier: [bookpid], publisher: [pubstmt_publisher],
                           pubplace: [pubstmt_pubplace],
                           date_created: pubdate, note: [note],
                           repository_location: ["Division of Rare and Manuscript Collections"], 
                           language: ["English"], 
                           subject: keywords)
        book.apply_depositor_metadata("jac244@cornell.edu")
-       col = Collection.find("ezracorn")
-       col.apply_depositor_metadata("jac244@cornell.edu")
+#       col = Collection.find("maypamph")
+#       col.apply_depositor_metadata("jac244@cornell.edu")
        book.save
        book.to_solr
        book.update_index
-       col.members << book
-       col.save
-       col.to_solr
-       col.update_index
+#       col.members << book
+#       col.save
+#       col.to_solr
+#       col.update_index
       puts "Done with " + bookpid
   end
 end
@@ -182,6 +177,6 @@ if inputparam.nil?
   puts "You must pass in a record ID"
   exit
 end
-data = Parser.new("/collections/ezra/" + ARGV[0] + "/" + inputparam + "_johnDec2_dims.xml")
+data = Parser.new("/collections/new_may/" + ARGV[0] + "/" + ARGV[0] + "_john_Jun15_dims.xml")
 data.parseRecords("HEADER")
 

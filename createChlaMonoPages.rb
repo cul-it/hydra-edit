@@ -57,10 +57,10 @@ class Parser
     pubplace = @doc.xpath(sprintf('//%s', 'BIBL//PUBPLACE'))[0].content
     pubdate = @doc.xpath(sprintf('//%s', 'BIBL//DATE'))[0].content
     puts title
-    puts author
-    puts publisher
-    puts pubplace
-    puts pubdate
+  #  puts author
+  #  puts publisher
+  #  puts pubplace
+  #  puts pubdate
 #    puts "START OF PAGES"
     head = ""
 
@@ -137,9 +137,9 @@ class Parser
     image_counter = 0
     record_counter = 0
     @doc.xpath(sprintf('//%s',tagname)).each do |record|
-              puts
-              puts "START OF DIV1 PAGES"
-              puts
+           #   puts
+           #   puts "START OF DIV1 PAGES"
+           #   puts
             image_ref = " "
             image_seq = " "
             image_res = " "
@@ -182,7 +182,7 @@ class Parser
             image_dim = pb1.values[4]
             image_ftr = pb1.values[5]
             image_n = pb1.values[6]
-            puts image_ref
+          #  puts image_ref
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -207,33 +207,29 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-          if image_seq.to_i >= 1
+	  if image_seq.to_i >= 1
           bookid = "chla" + ARGV[0]
           pagepid = "chla" + ARGV[0] + "_" + image_seq
           puts  pagepid
         #  puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-           if image_seq.to_i >= 2
+           if image_seq.to_i >= 1
            page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
           #  puts "swing"
-          else
-           page = Page.find(pagepid)
-          end
+        #  else
+        #   page = Page.find(pagepid)
+        #  end
            page.apply_depositor_metadata("jac244@cornell.edu")
            page.save
            page.to_solr
            page.update_index
-         #  puts "Page = " + page.inspect
-      #     puts "BookID = " + bookid
-           book = Book.find(bookid)
-      #     puts "Book = " + book.inspect
-      #     book.apply_depositor_metadata("jac244@cornell.edu")
-           book.members << page
-           book.save
-           book.to_solr
-           book.update_index
-      #     puts "Members = " + book.members
-          # puts "Page = " + page.inspect
+        #   puts "Sleeping for 0.5 seconds"
+           sleep(0.2)
+  #         book = Book.find(bookid)
+  #         book.members << page
+  #         book.save
+  #         book.to_solr
+  #         book.update_index
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -241,14 +237,15 @@ class Parser
             image_keyword = ""
             image_caption = ""
             image_ocr = ""
-            head = ""
+            head = ""   
+            end
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
           #  book.save
           #  book.to_solr
-            puts "Page " + image_seq + " in " + bookid + " saved "
-            puts "PageID = " +  pagepid
+ #           puts "Page " + image_seq + " in " + bookid + " saved "
+          #  puts "PageID = " +  pagepid
           end
        end
       epbcount = 0

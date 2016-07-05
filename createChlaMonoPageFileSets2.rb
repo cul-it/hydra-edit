@@ -211,7 +211,7 @@ class Parser
            end
           epbs1count = epbs1count + 1
           
-          if image_seq.to_i >= 1
+          if image_seq.to_i >= 237
           #bookid = "chla" + ARGV[0]
           pagepid = "chla" + ARGV[0] + "_" + image_seq
            page = Page.find(pagepid)
@@ -225,7 +225,7 @@ class Parser
           #end
            filesetid = pagepid + "_fs"
            puts "FileSet ID = " +  filesetid
-           if image_seq.to_i >= 1
+           if image_seq.to_i >= 237
              fs = FileSet.new(filesetid)
              fs.width = [image_width]
              fs.height = [image_height]
