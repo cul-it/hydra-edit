@@ -25,7 +25,7 @@
         index.type :date
         index.as :stored_sortable
       end
-    
+
 #      property :publisher, predicate: ::RDF::Vocab::DC11.publisher do |index|
 #        index.as :stored_searchable, :facetable
 #      end

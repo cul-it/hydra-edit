@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
-gem 'curation_concerns', '0.10.0'
+gem 'curation_concerns', '1.1.2'
 gem "hydra-role-management"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 #Use mysql as the database for Active Record and everything else
@@ -51,7 +51,6 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
 end
 
-gem 'rsolr', '~> 1.0.6'
 gem 'globalid'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
@@ -62,3 +61,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
 end
+
+group :development, :test do
+end
+
+gem 'rsolr', '~> 1.0'

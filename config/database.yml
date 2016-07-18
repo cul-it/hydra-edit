@@ -11,10 +11,10 @@
 default : &default
   adapter: mysql
   host: localhost
-  database: curationconcerns
-  username: ccuser
-  password: ccuserspass
-  socket: /var/lib/mysql/mysql.sock
+  database: ccupdate
+  username: root
+  password: root
+  socket: /Applications/MAMP/tmp/mysql/mysql.sock
   pool: 200
 development:
   <<: *default

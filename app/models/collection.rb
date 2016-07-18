@@ -3,7 +3,7 @@ class Collection < ActiveFedora::Base
   include ::CurationConcerns::CollectionBehavior
   include ::RequiredMetadata
   #This is a PCDM Collection Object
-  
+
   property :abstract, predicate: ::RDF::URI("http://purl.org/dc/terms/abstract") do |index|
     index.as :stored_searchable
   end
@@ -39,4 +39,3 @@ class Collection < ActiveFedora::Base
   end
 
 end
-

@@ -1,12 +1,12 @@
 class CatalogController < ApplicationController
   include CurationConcerns::CatalogController
   configure_blacklight do |config|
-    config.search_builder_class = CurationConcerns::SearchBuilder
+    # config.search_builder_class = ::SearchBuilder
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: search_config['qf'],
-      qt: search_config['qt'],
-      rows: search_config['rows']
+      qf: %w(title_tesim name_tesim),
+      qt: 'search',
+      rows: 10
     }
 
     # solr field configuration for search results/index views
@@ -25,12 +25,11 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_facet_field solr_name('human_readable_type', :facetable)
     config.add_facet_field solr_name('creator', :facetable), limit: 5
-    config.add_facet_field solr_name('tag', :facetable), limit: 5
+    config.add_facet_field solr_name('keyword', :facetable), limit: 5
     config.add_facet_field solr_name('subject', :facetable), limit: 5
     config.add_facet_field solr_name('language', :facetable), limit: 5
     config.add_facet_field solr_name('based_near', :facetable), limit: 5
     config.add_facet_field solr_name('publisher', :facetable), limit: 5
-    config.add_facet_field solr_name('file_format', :facetable), limit: 5
     config.add_facet_field 'generic_type_sim', show: false, single: true
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -41,7 +40,7 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
     config.add_index_field solr_name('description', :stored_searchable)
-    config.add_index_field solr_name('tag', :stored_searchable)
+    config.add_index_field solr_name('keyword', :stored_searchable)
     config.add_index_field solr_name('subject', :stored_searchable)
     config.add_index_field solr_name('creator', :stored_searchable)
     config.add_index_field solr_name('contributor', :stored_searchable)
@@ -78,7 +77,7 @@ class CatalogController < ApplicationController
       label_name = solr_name('title', :stored_searchable, type: :string)
       contributor_name = solr_name('contributor', :stored_searchable, type: :string)
       field.solr_parameters = {
-        qf: "#{title_name} #{label_name} file_format_tesim #{contributor_name}",
+        qf: "#{title_name} #{label_name} #{contributor_name}",
         pf: title_name.to_s
       }
     end
@@ -194,8 +193,8 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('tag') do |field|
-      solr_name = solr_name('tag', :stored_searchable, type: :string)
+    config.add_search_field('keyword') do |field|
+      solr_name = solr_name('keyword', :stored_searchable, type: :string)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name

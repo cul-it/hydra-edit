@@ -7,4 +7,3 @@ describe CurationConcerns::BookForm do
     skip "Add your tests here"
   end
 end
-
