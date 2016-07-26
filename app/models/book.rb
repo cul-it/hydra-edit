@@ -4,6 +4,8 @@ class Book < ActiveFedora::Base
   include ::CurationConcerns::WorkBehavior
   include ::BasicMetadata
   include ::RequiredMetadata
+  include ::CollectionIndexing
+
   validates :title, presence: { message: 'Your work must have a title.' }
 
   property :alternative_title, predicate: ::RDF::URI("http://purl.org/dc/terms/alternative") do |index|
