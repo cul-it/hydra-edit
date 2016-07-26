@@ -214,22 +214,8 @@ class Parser
           #puts "Adding pages for " + ARGV[0] 
           if image_seq.to_i >= 1
           pagepid = "chla" + ARGV[0] + "_" + image_seq
-        #  puts subject.to_s
-     #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-        #   if image_seq.to_i >= 1
-        #   page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
-          #  puts "swing"
-        #  else
-        #  puts "poo"
-        #  puts pagepid
            page = Page.find(pagepid)
-       #   end
-        #   puts "bear" + pagepid
-        #   puts pagepid
            page.apply_depositor_metadata("jac244@cornell.edu")
-       #    page.save
-       #    page.to_solr
-       #    page.update_index
            pages << page
             image_format = ""
             image_geo = ""
@@ -239,22 +225,10 @@ class Parser
             image_caption = ""
             image_ocr = ""
             head = ""
-#              puts
-#              puts "END OF IMAGE INFO"
-#            puts image_seq
-          #  book.save
-          #  book.to_solr
-          #  puts "Page " + image_seq + " in " + bookid + " saved "
-         #   puts "PageID = " +  pagepid
           end
        end
       epbcount = 0
 
-#    puts
-#    puts
-#    puts "END OF DIV1"
-#    puts
-#    puts
 
     end
     bookid = "chla" + ARGV[0]

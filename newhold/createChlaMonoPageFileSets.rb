@@ -282,7 +282,7 @@ inputparam = ARGV[0]
 #  exit
 #end
 #lines = File.foreach('chlafind.txt')
-lines = File.foreach('chlamemberhole.txt')
+lines = File.foreach('finishchlafilesets.txt')
 #lines = File.foreach('onechlafileset.txt')
 lines.each do |line|
   inputparam = line.chomp
