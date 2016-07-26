@@ -1,0 +1,1 @@
+RAILS_ENV=developement rails runner createChlaMonoPages.rb

@@ -57,11 +57,12 @@ class Parser
     publisher = @doc.xpath(sprintf('//%s', 'BIBL//PUBLISHER'))[0].content
     pubplace = @doc.xpath(sprintf('//%s', 'BIBL//PUBPLACE'))[0].content
     pubdate = @doc.xpath(sprintf('//%s', 'BIBL//DATE'))[0].content
-    puts title
-    puts author
-    puts publisher
-    puts pubplace
-    puts pubdate
+  #  puts title
+  #  puts author
+  #  puts publisher
+  #  puts pubplace
+  #  puts pubdate
+     puts "Adding members to chla" + ARGV[0]
 #    puts "START OF PAGES"
     head = ""
 
@@ -168,7 +169,10 @@ class Parser
        epb1 = getChildNodeContents(record,"EPB1")
        epbs1 = record.xpath('.//EPB1')
        epbs1count = 0
-               image_keyword_add = []
+      bookid = "chla" + ARGV[0]
+      book = Book.find(bookid) 
+       
+       image_keyword_add = []
        record.xpath('PB1').each do |pb1|
             image_ref = " "
             image_seq = " "
@@ -210,67 +214,37 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-          if image_seq.to_i >= 1
+          #puts "Adding pages for " + ARGV[0] 
+          if image_seq.to_i <= 9
           pagepid = "chla" + ARGV[0] + "_" + image_seq
-        #`  puts  pagepid
-        #  puts subject.to_s
-     #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-        #   if image_seq.to_i >= 1
-        #   page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
-          #  puts "swing"
-        #  else
-          puts "poo"
-          puts pagepid
            page = Page.find(pagepid)
-       #   end
-           puts "bear" + pagepid
-           puts pagepid
            page.apply_depositor_metadata("jac244@cornell.edu")
-       #    page.save
-       #    page.to_solr
-       #    page.update_index
-           pages << page
-            image_format = ""
-            image_geo = ""
-            image_date = ""
-            image_ethnic = ""
-            image_keyword = ""
-            image_caption = ""
-            image_ocr = ""
-            head = ""
-#              puts
-#              puts "END OF IMAGE INFO"
-#            puts image_seq
-          #  book.save
-          #  book.to_solr
-          #  puts "Page " + image_seq + " in " + bookid + " saved "
-         #   puts "PageID = " +  pagepid
+           book.members << page
           end
        end
       epbcount = 0
 
-#    puts
-#    puts
-#    puts "END OF DIV1"
-#    puts
-#    puts
-
     end
-    bookid = "chla" + ARGV[0]
-    book = Book.find(bookid) 
-    puts "Saving " + image_seq + " pages into " + bookid + ".members"
-    book.members << pages
-    book.save
-    book.to_solr
-    book.update_index
+#    bookid = "chla" + ARGV[0]
+#    book = Book.find(bookid) 
+#    puts "Saving " + image_seq + " pages into " + bookid + ".members"
+#    book.members << pages
+#     book.save
+  #  sleep(120.0)
+  #  book.to_solr
+  #  book.update_index
    
   end
 end
-inputparam = ARGV[0]
-if inputparam.nil?
-  puts "You must pass in a record ID"
-  exit
-end
+#inputparam = ARGV[0]
+#if inputparam.nil?
+#  puts "You must pass in a record ID"
+#  exit
+#end
+lines = File.foreach('missingfirst10pagemembers.txt')
+lines.each do |line|
+  inputparam = line.chomp
+  ARGV[0] = line.chomp
 data = Parser.new("/collections/chla/" + inputparam + "/chla-m-" + inputparam + "-monograph-WithDims-June10.xml")
 data.parseRecords("DIV1")
-
+end

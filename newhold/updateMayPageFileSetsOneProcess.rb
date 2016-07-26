@@ -20,7 +20,6 @@ class Parser
   end
 
   def parseRecords(tagname)
-       image_seq = 0
     bibID = ""
     callno = ""
     keywords = []
@@ -57,12 +56,11 @@ class Parser
     publisher = @doc.xpath(sprintf('//%s', 'BIBL//PUBLISHER'))[0].content
     pubplace = @doc.xpath(sprintf('//%s', 'BIBL//PUBPLACE'))[0].content
     pubdate = @doc.xpath(sprintf('//%s', 'BIBL//DATE'))[0].content
-  #  puts title
-  #  puts author
-  #  puts publisher
-  #  puts pubplace
-  #  puts pubdate
-     puts "Adding members to chla" + ARGV[0]
+    puts title
+    #puts author
+    #puts publisher
+    #puts pubplace
+    #puts pubdate
 #    puts "START OF PAGES"
     head = ""
 
@@ -102,7 +100,7 @@ class Parser
 #         part = getChildNodeContents(bibl, "part")
 #         lang = getChildNodeContents(bibl, "lang")
 #
-#
+
 #     end
 #    @doc.xpath(sprintf('//%s','ENCODINGDESC')).each do |ncode|
 #      ncode.xpath('.//EDITORIALDECL').each do |code|
@@ -134,37 +132,35 @@ class Parser
 #
 #    end
 #
-#
-#
+
+
     image_counter = 0
     record_counter = 0
-    pages = []
     @doc.xpath(sprintf('//%s',tagname)).each do |record|
            #   puts
            #   puts "START OF DIV1 PAGES"
            #   puts
-#            image_ref = " "
-#            image_seq = " "
-#            image_res = " "
-#            image_fmt = " "
-#            image_dim = " "
-#            image_ftr = " "
-#            image_n = " "
-#            image_format = " "
-#            image_geo = " "
-#            image_date = " "
-#            image_keyword = " "
-#            image_caption = " "
-#            image_ocr = " "
-#            head = ""
-#
-#       node = record.values[0] #.split(':')[1]
-#       node_type = record.values[1]
-#       head = getChildNodeContents(record,"HEAD")
-#       if head == 0 or head.nil?
-#         head = ""
-#       end
-#
+            image_ref = " "
+            image_seq = " "
+            image_res = " "
+            image_fmt = " "
+            image_dim = " "
+            image_ftr = " "
+            image_n = " "
+            image_format = " "
+            image_geo = " "
+            image_date = " "
+            image_keyword = " "
+            image_caption = " "
+            image_ocr = " "
+            head = ""
+
+       node = record.values[0] #.split(':')[1]
+       node_type = record.values[1]
+       head = getChildNodeContents(record,"HEAD")
+       if head == 0 or head.nil?
+         head = ""
+       end
 
        epb1 = getChildNodeContents(record,"EPB1")
        epbs1 = record.xpath('.//EPB1')
@@ -173,79 +169,106 @@ class Parser
        record.xpath('PB1').each do |pb1|
             image_ref = " "
             image_seq = " "
-            image_res = " "
-            image_fmt = " "
-            image_dim = " "
-            image_ftr = " "
-            image_n = " "
+#            image_res = " "
+#            image_fmt = " "
+#            image_dim = " "
+#            image_ftr = " "
+#            image_n = " "
             image_ref = pb1.values[0]
             image_seq = pb1.values[1]
             image_seq.sub!(/^0+/,"")
-            image_res = pb1.values[2]
-            image_fmt = pb1.values[3]
-            image_dim = pb1.values[4]
-            image_ftr = pb1.values[5]
-            image_n = pb1.values[6]
-         #   puts image_ref
-            image_format = ""
-            image_geo = ""
-            image_date = ""
-            image_ethnic = ""
-            image_keyword = ""
-            image_caption = ""
-            image_ocr = ""
-            if !image_ftr.nil?
-            title = image_ftr + " " + image_n
-            else
-            title = image_n
-            end
-
-          epbs1[epbs1count].xpath('.//P').each do |pee1|
+#            image_res = pb1.values[2]
+#            image_fmt = pb1.values[3]
+#            image_dim = pb1.values[4]
+#            image_dims = image_dim.split("x")
+#            image_width = image_dims[0]
+#            image_height = image_dims[1]
+#            image_ftr = pb1.values[5]
+#            image_n = pb1.values[6]
+#         #   puts image_ref
+#            image_format = ""
+#            image_geo = ""
+#            image_date = ""
+#            image_ethnic = ""
+#            image_keyword = ""
+#            image_caption = ""
+#            image_ocr = ""
+#            if !image_ftr.nil?
+#                if image_n.nil?
+#                   image_n = ""
+#                end
+#            title = image_ftr + " " + image_n
+#            else
+#                if image_n.nil?
+#                   image_n = ""
+#                end
+#            title = image_n
+#            end
+#
+#          epbs1[epbs1count].xpath('.//P').each do |pee1|
            #  puts "Ralph" + pee1.content()
-               test = pee1.content()
-                  image_ocr = pee1.content().encode("UTF-8", "ISO-8859-1")
-                  image_ocr.gsub!("\\","")
+#               test = pee1.content()
+#                  image_ocr = pee1.content().encode("UTF-8", "ISO-8859-1")
+#                  image_ocr.gsub!("\\","")
 
-          end
-           if image_ocr.nil?
-             image_ocr = " "
-           end
-          epbs1count = epbs1count + 1
-          #puts "Adding pages for " + ARGV[0] 
-          if image_seq.to_i >= 1
-          pagepid = "chla" + ARGV[0] + "_" + image_seq
+#          end
+#           if image_ocr.nil?
+#             image_ocr = " "
+#           end
+#          epbs1count = epbs1count + 1
+#          
+          if image_seq.to_i >= 1 
+          #bookid = "" + ARGV[0]
+           pagepid = "mays" + ARGV[0] + "_" + image_seq
+#           page = Page.find(pagepid)
+        #  puts  pagepid
         #  puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-        #   if image_seq.to_i >= 1
-        #   page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
+           #if image_seq.to_i >= 3
+           #page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
           #  puts "swing"
-        #  else
-        #  puts "poo"
-        #  puts pagepid
-           page = Page.find(pagepid)
-       #   end
-        #   puts "bear" + pagepid
-        #   puts pagepid
-           page.apply_depositor_metadata("jac244@cornell.edu")
-       #    page.save
-       #    page.to_solr
-       #    page.update_index
-           pages << page
-            image_format = ""
-            image_geo = ""
-            image_date = ""
-            image_ethnic = ""
-            image_keyword = ""
-            image_caption = ""
-            image_ocr = ""
-            head = ""
+          #else
+          #end
+           filesetid = pagepid + "_fs"
+           puts "FileSet ID = " +  filesetid
+           if image_seq.to_i >= 1 
+             fs = FileSet.find(filesetid)
+          #   fs.width = [image_width]
+          #   fs.height = [image_height]
+          #   fs.filename = image_ref
+          #   fs.identifier = [filesetid]
+          #   fs.fileset_identifier = [filesetid]
+             fs.awsimage = ["http://s3.amazonaws.com/cul-hydra/new_may/may" + ARGV[0] + "/jpg/" + image_ref]
+             fs.awsthumbnail = ["http://s3.amazonaws.com/cul-hydra/new_may/may" + ARGV[0] + "/thumbs/" + image_ref]
+          else
+             fs = FileSet.find(filesetid)
+          end
+             #page.apply_depositor_metadata("jac244@cornell.edu")
+             fs.apply_depositor_metadata("jac244@cornell.edu")
+             fs.save
+             fs.to_solr
+             fs.update_index
+        #     page.members << fs
+        #     page.save
+        #     page.to_solr
+        #     page.update_index
+      #     puts "Members = " + book.members
+          # puts "Page = " + page.inspect
+       #     image_format = ""
+       #     image_geo = ""
+       #     image_date = ""
+       #     image_ethnic = ""
+       #     image_keyword = ""
+       #     image_caption = ""
+       #     image_ocr = ""
+       #     head = ""
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
           #  book.save
           #  book.to_solr
-          #  puts "Page " + image_seq + " in " + bookid + " saved "
-         #   puts "PageID = " +  pagepid
+            puts "fileset " + image_seq + " in " + pagepid + " updated "
+          #  puts "PageID = " +  pagepid
           end
        end
       epbcount = 0
@@ -257,21 +280,18 @@ class Parser
 #    puts
 
     end
-    bookid = "chla" + ARGV[0]
-    book = Book.find(bookid) 
-    puts "Saving " + image_seq + " pages into " + bookid + ".members"
-    book.members << pages
-    book.save
-    book.to_solr
-    book.update_index
-   
   end
 end
-inputparam = ARGV[0]
-if inputparam.nil?
-  puts "You must pass in a record ID"
-  exit
-end
-data = Parser.new("/collections/chla/" + inputparam + "/chla-m-" + inputparam + "-monograph-WithDims-June10.xml")
+#inputparam = ARGV[0]
+#if inputparam.nil?
+#  puts "You must pass in a record ID"
+#  exit
+#end
+lines = File.foreach('updatemayfileset.txt')
+#lines = File.foreach('onerecord.txt')
+lines.each do |line|
+ inputparam = line.chomp
+ ARGV[0] = line.chomp
+data = Parser.new("/collections/new_may/may" + inputparam + "/may" + inputparam + "_john_Jun15_dims.xml")
 data.parseRecords("DIV1")
-
+end
