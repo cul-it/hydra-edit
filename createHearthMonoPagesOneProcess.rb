@@ -50,6 +50,7 @@ class Parser
     editorialdecl_n = ""
     editorialdecl = ""
     subject = []
+    image_seq = ""
     head = ""
     title = @doc.xpath(sprintf('//%s', 'TITLE'))[0].content
     author = @doc.xpath(sprintf('//%s', 'AUTHOR'))[0].content
@@ -57,10 +58,10 @@ class Parser
     pubplace = @doc.xpath(sprintf('//%s', 'BIBL//PUBPLACE'))[0].content
     pubdate = @doc.xpath(sprintf('//%s', 'BIBL//DATE'))[0].content
     puts title
-  #  puts author
-  #  puts publisher
-  #  puts pubplace
-  #  puts pubdate
+#    puts author
+#    puts publisher
+#    puts pubplace
+#    puts pubdate
 #    puts "START OF PAGES"
     head = ""
 
@@ -136,12 +137,16 @@ class Parser
 
     image_counter = 0
     record_counter = 0
+          bookid = "hearth" + ARGV[0]
+          book = Book.find(bookid)
+          book.apply_depositor_metadata("jac244@cornell.edu")
+          pages = []
     @doc.xpath(sprintf('//%s',tagname)).each do |record|
-           #   puts
-           #   puts "START OF DIV1 PAGES"
-           #   puts
+              puts
+              puts "START OF DIV1 PAGES"
+              puts
             image_ref = " "
-            image_seq = " "
+          #  image_seq = " "
             image_res = " "
             image_fmt = " "
             image_dim = " "
@@ -168,7 +173,12 @@ class Parser
                image_keyword_add = []
        record.xpath('PB1').each do |pb1|
             image_ref = " "
-            image_seq = " "
+          #  image_seq = " "a
+          puts "Test to see if image_seq is duped"
+          puts "Image_seq = " + image_seq
+          puts "New image_seq = " + pb1.values[1]
+          teststring = pb1.values[1].sub!(/^0+/,"")
+          next if image_seq == teststring
             image_res = " "
             image_fmt = " "
             image_dim = " "
@@ -182,7 +192,7 @@ class Parser
             image_dim = pb1.values[4]
             image_ftr = pb1.values[5]
             image_n = pb1.values[6]
-          #  puts image_ref
+            puts image_ref
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -195,7 +205,6 @@ class Parser
             else
             title = image_n
             end
-
           epbs1[epbs1count].xpath('.//P').each do |pee1|
            #  puts "Ralph" + pee1.content()
                test = pee1.content()
@@ -207,63 +216,35 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-	  if image_seq.to_i >= 9
-          bookid = "chla" + ARGV[0]
-          pagepid = "chla" + ARGV[0] + "_" + image_seq
-          puts  pagepid
-        #  puts subject.to_s
-     #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-           if image_seq.to_i >= 9
-           page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
-          #  puts "swing"
-        #  else
-        #   page = Page.find(pagepid)
-        #  end
-           page.apply_depositor_metadata("jac244@cornell.edu")
-           page.save
-           page.to_solr
-           page.update_index
-        #   puts "Sleeping for 0.5 seconds"
-           sleep(0.2)
-  #         book = Book.find(bookid)
-  #         book.members << page
-  #         book.save
-  #         book.to_solr
-  #         book.update_index
-            image_format = ""
-            image_geo = ""
-            image_date = ""
-            image_ethnic = ""
-            image_keyword = ""
-            image_caption = ""
-            image_ocr = ""
-            head = ""   
-            end
-#              puts
-#              puts "END OF IMAGE INFO"
-#            puts image_seq
-          #  book.save
-          #  book.to_solr
- #           puts "Page " + image_seq + " in " + bookid + " saved "
-          #  puts "PageID = " +  pagepid
+	  if image_seq.to_i >=   1 # and  image_seq.to_i <=   8
+
+           pagepid = "hearth" + ARGV[0] + "_" + image_seq
+           puts  pagepid
+           if image_seq.to_i >=   1 # and  image_seq.to_i <=   8
+#            page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
+            page = Page.find(pagepid)
+            page.apply_depositor_metadata("jac244@cornell.edu")
+            pages << page
+           end
+            puts "PageID = " +  pagepid
           end
        end
       epbcount = 0
 
-#    puts
-#    puts
-#    puts "END OF DIV1"
-#    puts
-#    puts
-
     end
+      book.members << pages
+      book.save
   end
 end
 inputparam = ARGV[0]
-if inputparam.nil?
-  puts "You must pass in a record ID"
-  exit
-end
-data = Parser.new("/collections/chla/" + inputparam + "/chla-m-" + inputparam + "-monograph-WithDims-June10.xml")
+#if inputparam.nil?
+#  puts "You must pass in a record ID"
+#  exit
+#end
+lines = File.foreach('hearthpages.txt')
+lines.each do |line|
+  inputparam = line.chomp
+  ARGV[0] = line.chomp
+data = Parser.new("/collections/hearth/" + inputparam + "/hearth-m-" + inputparam + "-monograph-WithDims-July21.xml")
 data.parseRecords("DIV1")
-
+end

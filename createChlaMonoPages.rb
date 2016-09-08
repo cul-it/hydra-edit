@@ -207,13 +207,13 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-	  if image_seq.to_i >= 9
+	  if image_seq.to_i == 9
           bookid = "chla" + ARGV[0]
           pagepid = "chla" + ARGV[0] + "_" + image_seq
           puts  pagepid
         #  puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
-           if image_seq.to_i >= 9
+           if image_seq.to_i == 9
            page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
           #  puts "swing"
         #  else

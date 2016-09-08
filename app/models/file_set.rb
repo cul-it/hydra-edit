@@ -32,6 +32,15 @@ class FileSet < ActiveFedora::Base
       property :awsthumbnail, predicate: ::RDF::URI("http://www.europeana.eu/schemas/edm/preview") do |index|
         index.as :stored_searchable
       end
+      property :image_width, predicate: ::RDF::URI("http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#width") do |index|
+        index.as :stored_searchable
+      end
+      property :image_height, predicate: ::RDF::URI("http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#height") do |index|
+        index.as :stored_searchable
+      end
+      property :image_filename, predicate: ::RDF::URI("http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#filename") do |index|
+        index.as :stored_searchable
+      end
   
   
 end
