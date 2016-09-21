@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+ruby "2.2.5"
+
 gem 'curation_concerns',:git => 'git@github.com:projecthydra/curation_concerns.git', :branch => 'member_of_replace'
 gem "hydra-role-management"
 
