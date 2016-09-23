@@ -1,8 +1,14 @@
 source 'https://rubygems.org'
 ruby "2.2.5"
 
-gem 'curation_concerns',:git => 'git@github.com:projecthydra/curation_concerns.git', :branch => 'member_of_replace'
+gem 'curation_concerns', github:'projecthydra-labs/curation_concerns', branch: :member_of_replace
 gem "hydra-role-management"
+gem 'hydra-works', github: 'projecthydra-labs/hydra-works', branch: 'master'
+gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm', branch: 'master'
+gem 'hydra-derivatives', github: 'projecthydra/hydra-derivatives', branch: 'master'
+gem 'active-fedora', '11.0.0.rc7'
+gem 'active-triples', '~> 0.10.0'
+gem 'hydra-editor','3.1.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
