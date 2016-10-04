@@ -23,4 +23,14 @@ class SolrDocument
   # Do content negotiation for AF models.
 
   use_extension( Hydra::ContentNegotiation )
+
+      def creator
+        if hydra_model.index_config[:creator].present?
+      descriptor = hydra_model.index_config[:creator].behaviors.first
+      fetch(Solrizer.solr_name('creator', descriptor), [])
+      end
+      end
+
+
+
 end
