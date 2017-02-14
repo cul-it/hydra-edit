@@ -205,27 +205,29 @@ class Parser
          alt_title = titlestmt_title
 
 #        col = Collection.find("corehist")
-         bookpid = "chla" + pubstmt_idno
-        puts " entering book.new for " + bookpid
-        book = Book.new(id: bookpid, title: [titlestmt_title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], 
-                           translator: [translator], extent: [extent], format: [format], format_URI: [format_URI], our_identifier: [bookpid], 
-                           repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], 
+         journalpid = "hivebees" + pubstmt_idno
+        puts " entering Journal.new for " + journalpid
+        journal = Journal.new(id: journalpid, title: [titlestmt_title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], 
+                           translator: [translator], format: ["Journal"], format_URI: [format_URI], our_identifier: [journalpid], 
+                           journalType: [item_type], journalType_URI: [item_type_URI], 
                            date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], 
                            publisher: [pubstmt_publisher], date_created: date_created, subject: keywords, language: ["English"], 
-                           related_url: [related_url], pubplace: [pubstmt_pubplace], identifier: [bookpid], creator: [titlestmt_author]) 
+                           related_url: [related_url], pubplace: [pubstmt_pubplace], identifier: [journalpid]) 
                       #    pubstmt_pubplace: pubstmt_pubplace, pubstmt_idno_type: pubstmt_idno_type, pubstmt_idno: "chla" + pubstmt_idno,b 
                       #    bibl_titletype: bibl_titletype, title: title, author: author, publisher: publisher, pubplace: pubplace, 
                       #    pubdate: pubdate, date: date, note: note,
                       #    availability: availability, subject: keywords , editorialdecl_n: editorialdecl_n, 
                       #    editorialdecl: editorialdecl,  keywords: keywords, bibId: bibID, edition: edition)
-       puts book.to_s
 
-       book.apply_depositor_metadata("jac244@cornell.edu")
+       journal.apply_depositor_metadata("jac244@cornell.edu")
        col = Collection.find("corehist")
+       col2 = Collection.find("hivebees")
        #puts col.to_s
-       #col.apply_depositor_metadata("jac244@cornell.edu")
-       book.member_of_collections << col
-       book.save
+       col.apply_depositor_metadata("jac244@cornell.edu")
+       col2.apply_depositor_metadata("jac244@cornell.edu")
+       journal.member_of_collections << col
+       journal.member_of_collections << col2
+       journal.save
        #book.to_solr
        #book.update_index
        #col.members << book
@@ -239,7 +241,7 @@ class Parser
 #         book.pdf.content = File.open("/cul/data/collections/chla/" + pubstmt_idno + "/pdfs/" + ARGV[0] + ".pdf")
         # book.save
         # book.to_solr
-         puts "Finished with " + bookpid
+         puts "Finished with " + journalpid
          puts
   end
  end
@@ -248,11 +250,11 @@ end
 
 
 inputparam = ARGV[0]
-lines = File.foreach("chlamonos.txt")
+lines = File.foreach("bees1.txt")
 lines.each do |line|
  inputparam = line.chomp
  ARGV[0] = line.chomp
- data = Parser.new("/collections/chla/" + ARGV[0] + "/chla-m-" + ARGV[0] + "-monographs-WithDims-June10.xml")
+ data = Parser.new("/collections/bees/" + ARGV[0] + "/chla-s-abj-" + ARGV[0] + "-WithDimsOCR-Feb13.xml")
 data.parseRecords("HEADER")
 end
 #data.parseRecords("DLPSTEXTCLASS")

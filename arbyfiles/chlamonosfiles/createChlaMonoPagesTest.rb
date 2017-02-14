@@ -57,10 +57,10 @@ class Parser
     pubplace = @doc.xpath(sprintf('//%s', 'BIBL//PUBPLACE'))[0].content
     pubdate = @doc.xpath(sprintf('//%s', 'BIBL//DATE'))[0].content
     puts title
-    puts author
-    puts publisher
-    puts pubplace
-    puts pubdate
+  #  puts author
+  #  puts publisher
+  #  puts pubplace
+  #  puts pubdate
 #    puts "START OF PAGES"
     head = ""
 
@@ -137,9 +137,9 @@ class Parser
     image_counter = 0
     record_counter = 0
     @doc.xpath(sprintf('//%s',tagname)).each do |record|
-              puts
-              puts "START OF DIV1 PAGES"
-              puts
+           #   puts
+           #   puts "START OF DIV1 PAGES"
+           #   puts
             image_ref = " "
             image_seq = " "
             image_res = " "
@@ -176,12 +176,13 @@ class Parser
             image_n = " "
             image_ref = pb1.values[0]
             image_seq = pb1.values[1]
+            image_seq.sub!(/^0+/,"")
             image_res = pb1.values[2]
             image_fmt = pb1.values[3]
             image_dim = pb1.values[4]
             image_ftr = pb1.values[5]
             image_n = pb1.values[6]
-            puts image_ref
+          #  puts image_ref
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -189,7 +190,11 @@ class Parser
             image_keyword = ""
             image_caption = ""
             image_ocr = ""
+            if !image_ftr.nil?
             title = image_ftr + " " + image_n
+            else
+            title = image_n
+            end
 
           epbs1[epbs1count].xpath('.//P').each do |pee1|
            #  puts "Ralph" + pee1.content()
@@ -202,20 +207,26 @@ class Parser
              image_ocr = " "
            end
           epbs1count = epbs1count + 1
-          if image_seq.to_i >= 1
-          pagepid = ARGV[0] + "_" + image_seq
-          puts "shift"
-          puts subject.to_s
+	  if image_seq.to_i >= 1 #and image_seq.to_i <= 375
+          bookid = "chla" + ARGV[0]
+          pagepid = "chla" + ARGV[0] + "_" + image_seq
+          puts  pagepid
+        #  puts subject.to_s
      #     thumbnail = "http://hydrastg.library.cornell.edu/fedora/get/" + pagepid + "/thumbnailImage"
+           if image_seq.to_i >= 1
            page = Page.new(id: pagepid, subject: subject, title: [title], node: [node], node_type: [node_type], page_number: [image_n], ocr: [image_ocr], our_identifier: [pagepid], heading: [head] )
-            puts "swing"
+          #  puts "swing"
+        #  else
+        #   page = Page.find(pagepid)
+        #  end
            page.apply_depositor_metadata("jac244@cornell.edu")
-           book = Book.find(ARGV[0])
-           book.apply_depositor_metadata("jac244@cornell.edu")
-            page.member_of_collections << book
-            page.save
-        #   page.pageImage.content = File.open("/collections/hunt/" + ARGV[0] +"/jpg/" + image_ref)
-        #   page.pageImageThumbnail.content = File.open("/collections/hunt/" + ARGV[0] +"/thumbs/" + image_ref)
+           page.save
+        #   puts "Sleeping for 0.5 seconds"
+  #         book = Book.find(bookid)
+  #         book.members << page
+  #         book.save
+  #         book.to_solr
+  #         book.update_index
             image_format = ""
             image_geo = ""
             image_date = ""
@@ -223,12 +234,15 @@ class Parser
             image_keyword = ""
             image_caption = ""
             image_ocr = ""
-            head = ""
+            head = ""   
+            end
 #              puts
 #              puts "END OF IMAGE INFO"
 #            puts image_seq
-            puts "Page " + image_seq + " in " + ARGV[0] + " saved "
-            puts "PageID = " +  pagepid
+          #  book.save
+          #  book.to_solr
+ #           puts "Page " + image_seq + " in " + bookid + " saved "
+          #  puts "PageID = " +  pagepid
           end
        end
       epbcount = 0
@@ -243,15 +257,11 @@ class Parser
   end
 end
 inputparam = ARGV[0]
-#if inputparam.nil?
-#  puts "You must pass in a record ID"
-#  exit
-#end
-lines = File.foreach("huntbooks.txt")
+#lines = File.foreach("onechlamonosTest.txt")
+lines = File.foreach("chlamonosTest.txt")
 lines.each do |line|
-  inputparam = line.chomp
-  ARGV[0] = line.chomp
-data = Parser.new("/collections/hunt/" + inputparam + "/" + inputparam + "_john_Jul22_dims.xml")
+ inputparam = line.chomp
+ ARGV[0] = line.chomp
+data = Parser.new("/collections/chla/" + inputparam + "/chla-m-" + inputparam + "-monograph-WithDims-June10.xml")
 data.parseRecords("DIV1")
 end
-

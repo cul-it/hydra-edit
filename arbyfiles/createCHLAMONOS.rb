@@ -206,7 +206,7 @@ class Parser
 
 #        col = Collection.find("corehist")
          bookpid = "chla" + pubstmt_idno
-        puts " entering book.new for " + bookpid
+       # puts " entering book.new for " + bookpid
         book = Book.new(id: bookpid, title: [titlestmt_title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], 
                            translator: [translator], extent: [extent], format: [format], format_URI: [format_URI], our_identifier: [bookpid], 
                            repository_location: [repository_location], item_type: [item_type], item_type_URI: [item_type_URI], 
@@ -252,7 +252,7 @@ lines = File.foreach("chlamonos.txt")
 lines.each do |line|
  inputparam = line.chomp
  ARGV[0] = line.chomp
- data = Parser.new("/collections/chla/" + ARGV[0] + "/chla-m-" + ARGV[0] + "-monographs-WithDims-June10.xml")
+ data = Parser.new("/collections/chla/" + ARGV[0] + "/chla-m-" + ARGV[0] + "-monograph-WithDims-June10.xml")
 data.parseRecords("HEADER")
 end
 #data.parseRecords("DLPSTEXTCLASS")
