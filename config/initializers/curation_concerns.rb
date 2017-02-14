@@ -1,4 +1,8 @@
 CurationConcerns.configure do |config|
+  # Injected via `rails g curation_concerns:work Article`
+  config.register_curation_concern :article
+  # Injected via `rails g curation_concerns:work Issue`
+  config.register_curation_concern :issue
   # Injected via `rails g curation_concerns:work Journal`
   config.register_curation_concern :journal
   # Injected via `rails g curation_concerns:work Page`
