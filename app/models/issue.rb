@@ -37,13 +37,19 @@ class Issue < ActiveFedora::Base
   property :issue_type_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/type") do |index|
        index.as :stored_searchable
   end
-  property :edition, predicate: ::RDF::URI("http://purl.org/bibo/edition") do |index|
-       index.as :stored_searchable
-  end
   property :physicalSource, predicate: ::RDF::URI("http://purl.org/dc/terms/source") do |index|
        index.as :stored_searchable
   end
   property :placeOfPublication, predicate: ::RDF::URI("http://vivoweb.org/ontology/core/placeOfPublication") do |index|
+       index.as :stored_searchable
+  end
+  property :format, predicate: ::RDF::URI("http://purl.org/dc/format") do |index|
+       index.as :stored_searchable
+  end
+  property :format_URI, predicate: ::RDF::URI("http://purl.org/dc/terms/format") do |index|
+       index.as :stored_searchable
+  end
+  property :our_identifier, predicate: ::RDF::URI("http://purl.org/dc/terms/identifier") do |index|
        index.as :stored_searchable
   end
 

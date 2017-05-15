@@ -1,6 +1,6 @@
 development:
-  archivist:
-    - archivist1@example.com
+  admin:
+    - jrc88@cornell.edu
 test:
   archivist:
     - archivist1@example.com

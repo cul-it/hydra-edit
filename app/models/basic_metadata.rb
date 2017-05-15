@@ -33,9 +33,9 @@
       property :abstract, predicate: ::RDF::URI("http://purl.org/dc/terms/abstract") do |index| 
          index.as :stored_searchable
       end
-      property :tag, predicate: ::RDF::Vocab::DC11.relation do |index|
-        index.as :stored_searchable, :facetable
-      end
+#      property :tag, predicate: ::RDF::Vocab::DC11.relation do |index|
+#        index.as :stored_searchable, :facetable
+#      end
       
 # rights is repeated below
 #      property :rights, predicate: ::RDF::Vocab::DC.rights do |index|

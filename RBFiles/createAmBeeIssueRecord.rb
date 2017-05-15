@@ -96,6 +96,20 @@ class Parser
          end
          titlestmt_title = getChildNodeContents(header,"TITLE").encode("UTF-8", "ISO-8859-1")
          titlestmt_author = getChildNodeContents(header,"AUTHOR").encode("UTF-8", "ISO-8859-1")
+         issue_number_text = ''
+         title_split = titlestmt_title.split(': ')
+         vol_issue_text = title_split[1].split(', ')
+         puts "vol_issue_text = " + vol_issue_text.inspect
+         volume_text = vol_issue_text[0].split(' ')
+         volume_number_text = volume_text[1]
+         if vol_issue_text[1] == 'Index '
+           issue_number_text = 'index'
+         else
+           issue_text = vol_issue_text[1].split(' ')
+           issue_number_text = issue_text[1]
+         end
+         puts "volume number = " + volume_number_text
+         puts "issue number = " + issue_number_text
         # puts "titlestmt_title = " + titlestmt_title
         # puts "titlestmt_author = " + titlestmt_author
          editionpath = wink.xpath('.//EDITIONSTMT')
@@ -205,43 +219,23 @@ class Parser
          alt_title = titlestmt_title
 
 #        col = Collection.find("corehist")
-         journalpid = "hivebees" + pubstmt_idno
-        puts " entering Journal.new for " + journalpid
-        journal = Journal.new(id: journalpid, title: [titlestmt_title], alternative_title: [alt_title], compiler: [compiler], editor: [editor], 
-                           translator: [translator], format: ["Journal"], format_URI: [format_URI], our_identifier: [journalpid], 
-                           journalType: [item_type], journalType_URI: [item_type_URI], 
+         issuepid = "hivebees" + "6366245" + "_" + volume_number_text + "_" + issue_number_text 
+        puts " entering Journal.new for " + issuepid
+        issue = Issue.new(id: issuepid, title: [titlestmt_title], editor: [editor], extent: [extent], 
+                           format: ["Issue"], format_URI: [format_URI],  
+                           issue_type: [item_type], issue_type_URI: [item_type_URI], 
                            date_uploaded: date_uploaded, date_modified: date_modified, depositor: depositor, note: [note], 
                            publisher: [pubstmt_publisher], date_created: date_created, subject: keywords, language: ["English"], 
-                           related_url: [related_url], pubplace: [pubstmt_pubplace], identifier: [journalpid]) 
-                      #    pubstmt_pubplace: pubstmt_pubplace, pubstmt_idno_type: pubstmt_idno_type, pubstmt_idno: "chla" + pubstmt_idno,b 
-                      #    bibl_titletype: bibl_titletype, title: title, author: author, publisher: publisher, pubplace: pubplace, 
-                      #    pubdate: pubdate, date: date, note: note,
-                      #    availability: availability, subject: keywords , editorialdecl_n: editorialdecl_n, 
-                      #    editorialdecl: editorialdecl,  keywords: keywords, bibId: bibID, edition: edition)
+                           related_url: [related_url], pubplace: [pubstmt_pubplace], identifier: [issuepid]) 
 
+       issue.apply_depositor_metadata("jac244@cornell.edu")
+       journal = Journal.find("hivebees6366245")
        journal.apply_depositor_metadata("jac244@cornell.edu")
-       col = Collection.find("corehist")
-       col2 = Collection.find("hivebees")
-       #puts col.to_s
-       col.apply_depositor_metadata("jac244@cornell.edu")
-       col2.apply_depositor_metadata("jac244@cornell.edu")
-       journal.member_of_collections << col
-       journal.member_of_collections << col2
+       issue.apply_depositor_metadata("jac244@cornell.edu")
+       issue.save
+       journal.members << issue
        journal.save
-       #book.to_solr
-       #book.update_index
-       #col.members << book
-       #col.save
-       #col.to_solr
-       #col.update_index
-
-
-#         book.digitalImage.content = File.open("/cul/data/collections/chla/" + pubstmt_idno + "/jpg/" + firstImage)
-#         book.thumbnailImage.content = File.open("/cul/data/collections/chla/" + pubstmt_idno + "/thumbs/" + firstImage)
-#         book.pdf.content = File.open("/cul/data/collections/chla/" + pubstmt_idno + "/pdfs/" + ARGV[0] + ".pdf")
-        # book.save
-        # book.to_solr
-         puts "Finished with " + journalpid
+         puts "Finished with " + issuepid
          puts
   end
  end
@@ -250,12 +244,14 @@ end
 
 
 inputparam = ARGV[0]
-lines = File.foreach("bees1.txt")
+lines = File.foreach("/collections/bees/beefilesOneIssue.txt")
 lines.each do |line|
  inputparam = line.chomp
+ topdir = inputparam.split('_')
+ topdir_text = topdir[0] + '_' + topdir[1]
  ARGV[0] = line.chomp
- data = Parser.new("/collections/bees/" + ARGV[0] + "/chla-s-abj-" + ARGV[0] + "-WithDimsOCR-Feb13.xml")
-data.parseRecords("HEADER")
+ data = Parser.new("/collections/bees/" + topdir_text + "/" + ARGV[0] + "/chla-s-abj-" + ARGV[0] + "-WithDimsOCR-Feb13.xml")
+#data.parseRecords("HEADER")
+data.parseRecords("DLPSTEXTCLASS")
 end
-#data.parseRecords("DLPSTEXTCLASS")
 
